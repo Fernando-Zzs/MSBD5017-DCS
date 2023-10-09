@@ -1,20 +1,6 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-/*
-Version 1.0 MVP 实现周期内基本逻辑
-
-合约所有者：
-1.初始化合约（仅一次）
-2.每个epoch为合约设置必要的状态变量（开始/结束时间戳、参与者，同时初始化参数）
-
-参与者：
-1.查看所有参与者，进行投票决策
-2.在epoch时间范围内转账给其他人（消耗自己的balances，增加别人的credits）
-3.查看最终credits结果
-
-*/
-
 contract YourContract {
 	/* State Variables */
 	address public immutable owner;
@@ -92,11 +78,4 @@ contract YourContract {
 		balances[msg.sender] -= amount;
 		credits[recipient] += amount;
 	}
-
-	// function withdraw() public isOwner {
-	// 	(bool success, ) = owner.call{ value: address(this).balance }("");
-	// 	require(success, "Failed to send Ether");
-	// }
-
-	// receive() external payable {}
 }

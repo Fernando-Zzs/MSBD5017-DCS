@@ -1,19 +1,20 @@
-# 🏗 Scaffold-ETH 2
+# 🏗 MSBD5017 Project (Based on Scaffold-ETH 2)
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+## Decentralized Compensation System
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+This is a salary distribution solution based on blockchain technology. Everyone can openly and transparently decide the salary allocation of team members within a cycle through voting. Team members can be effectively motivated through salary allocation that is more in line with their actual level of contribution.
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, and Typescript.
+## Brief Roadmap
+### V1.0 minimum viable product
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+**Owner**
+* Initialize the contract
+* Initialize the variables in the contract at the beginning of an epoch
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/1171422a-0ce4-4203-bcd4-d2d1941d198b)
+**participant**
+* View all participants to dicide who to transfer
+* Within a period of epoch, transfer your token to other participants
+* View the token acquisition status of all participants after the epoch
 
 ## Requirements
 
@@ -30,7 +31,7 @@ To get started with Scaffold-ETH 2, follow the steps below:
 1. Clone this repo & install dependencies
 
 ```
-git clone https://github.com/scaffold-eth/scaffold-eth-2.git
+git clone https://github.com/Fernando-Zzs/MSBD5017-DCS.git
 cd scaffold-eth-2
 yarn install
 ```
@@ -41,7 +42,14 @@ yarn install
 yarn chain
 ```
 
-This command starts a local Ethereum network using Hardhat. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `hardhat.config.ts`.
+This command starts a local Ethereum network using Hardhat. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `hardhat.config.ts`. To use your own API key, you should add a file called `.env` in `packages/hardhat`. Here is an example:
+
+```
+# Replace your own KEY, these keys are unvalid
+ALCHEMY_API_KEY="ZN_xwZowaO1j8ICZgfyY9YXwB2JH6-fN"
+DEPLOYER_PRIVATE_KEY="efe18d5e50c6bf38a9d24d48e7ee60723f8b0df0d64f0d5560988bd80ba96890"
+ETHERSCAN_API_KEY="XJUZVQN1SRS1ECH6TDTTQZ4MY3NE5I4KX8"
+```
 
 3. On a second terminal, deploy the test contract:
 
@@ -62,17 +70,22 @@ Visit your app on: `http://localhost:3000`. You can interact with your smart con
 Run smart contract test with `yarn hardhat:test`
 
 - Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
+- Edit your test file in `packages/hardhat/test`
 - Edit your frontend in `packages/nextjs/pages`
 - Edit your deployment scripts in `packages/hardhat/deploy`
 
-## Documentation
+## Learn about Scaffold-ETH 2
+<h4 align="center">
+  <a href="https://docs.scaffoldeth.io">Documentation</a> |
+  <a href="https://scaffoldeth.io">Website</a>
+</h4>
 
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
+🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
 
-To know more about its features, check out our [website](https://scaffoldeth.io).
+⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, and Typescript.
 
-## Contributing to Scaffold-ETH 2
+- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
+- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
+- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
 
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/1171422a-0ce4-4203-bcd4-d2d1941d198b)
