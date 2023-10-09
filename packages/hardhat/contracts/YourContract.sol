@@ -1,87 +1,102 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-// Useful for debugging. Remove when deploying to a live network.
-import "hardhat/console.sol";
+/*
+Version 1.0 MVP 实现周期内基本逻辑
 
-// Use openzeppelin to inherit battle-tested implementations (ERC20, ERC721, etc)
-// import "@openzeppelin/contracts/access/Ownable.sol";
+合约所有者：
+1.初始化合约（仅一次）
+2.每个epoch为合约设置必要的状态变量（开始/结束时间戳、参与者，同时初始化参数）
 
-/**
- * A smart contract that allows changing a state variable of the contract and tracking the changes
- * It also allows the owner to withdraw the Ether in the contract
- * @author BuidlGuidl
- */
+参与者：
+1.查看所有参与者，进行投票决策
+2.在epoch时间范围内转账给其他人（消耗自己的balances，增加别人的credits）
+3.查看最终credits结果
+
+*/
+
 contract YourContract {
-	// State Variables
+	/* State Variables */
 	address public immutable owner;
-	string public greeting = "Building Unstoppable Apps!!!";
-	bool public premium = false;
-	uint256 public totalCounter = 0;
-	mapping(address => uint) public userGreetingCounter;
+	uint public startTime;
+	uint public endTime;
+	address[] public participants;
+	mapping(address => uint) public credits;
+	mapping(address => uint) public balances;
 
-	// Events: a way to emit log statements from smart contract that can be listened to by external parties
-	event GreetingChange(
-		address indexed greetingSetter,
-		string newGreeting,
-		bool premium,
-		uint256 value
-	);
+	/* Events */
 
-	// Constructor: Called once on contract deployment
-	// Check packages/hardhat/deploy/00_deploy_your_contract.ts
+	/* Constructor */
 	constructor(address _owner) {
 		owner = _owner;
 	}
 
-	// Modifier: used to define a set of rules that must be met before or after a function is executed
-	// Check the withdraw() function
-	modifier isOwner() {
-		// msg.sender: predefined variable that represents address of the account that called the current function
+	/* Modifier */
+	modifier OwnerOnly() {
 		require(msg.sender == owner, "Not the Owner");
 		_;
 	}
 
-	/**
-	 * Function that allows anyone to change the state variable "greeting" of the contract and increase the counters
-	 *
-	 * @param _newGreeting (string memory) - new greeting to save on the contract
-	 */
-	function setGreeting(string memory _newGreeting) public payable {
-		// Print data to the hardhat chain console. Remove when deploying to a live network.
-		console.log(
-			"Setting new greeting '%s' from %s",
-			_newGreeting,
-			msg.sender
-		);
-
-		// Change state variables
-		greeting = _newGreeting;
-		totalCounter += 1;
-		userGreetingCounter[msg.sender] += 1;
-
-		// msg.value: built-in global variable that represents the amount of ether sent with the transaction
-		if (msg.value > 0) {
-			premium = true;
-		} else {
-			premium = false;
+	// 效率较低，浪费gas，在v1.1会改进
+	modifier ParticipantOnly() {
+		bool isParticipant = false;
+		for (uint i = 0; i < participants.length; i++) {
+			if (participants[i] == msg.sender) {
+				isParticipant = true;
+				break;
+			}
 		}
-
-		// emit: keyword used to trigger an event
-		emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, 0);
+		require(isParticipant, "Caller is not a participant");
+		_;
 	}
 
-	/**
-	 * Function that allows the owner to withdraw all the Ether in the contract
-	 * The function can only be called by the owner of the contract as defined by the isOwner modifier
-	 */
-	function withdraw() public isOwner {
-		(bool success, ) = owner.call{ value: address(this).balance }("");
-		require(success, "Failed to send Ether");
+	/* Function for Owner */
+	function initEpochInfo(
+		uint _startTime,
+		uint _endTime,
+		address[] memory _participants
+	) public OwnerOnly {
+		startTime = _startTime;
+		endTime = _endTime;
+		participants = _participants;
+
+		initBalances();
+		initCredits();
 	}
 
-	/**
-	 * Function that allows the contract to receive ETH
-	 */
-	receive() external payable {}
+	// 平均分配，在v2.0版本引入DID会改进
+	function initBalances() internal {
+		for (uint i = 0; i < participants.length; i++) {
+			balances[participants[i]] = 100;
+		}
+	}
+
+	function initCredits() internal {
+		for (uint i = 0; i < participants.length; i++) {
+			credits[participants[i]] = 0;
+		}
+	}
+
+	/* Function for Participants */
+	function transferTokens(
+		address recipient,
+		uint amount
+	) public ParticipantOnly {
+		require(
+			block.timestamp >= startTime && block.timestamp < endTime,
+			"Transfer not allowed outside the time period"
+		);
+		require(amount > 0, "Amount must be greater than zero");
+		require(balances[msg.sender] >= amount, "Insufficient balance");
+
+		balances[msg.sender] -= amount;
+		credits[recipient] += amount;
+	}
+
+	// function withdraw() public isOwner {
+	// 	(bool success, ) = owner.call{ value: address(this).balance }("");
+	// 	require(success, "Failed to send Ether");
+	// }
+
+	// receive() external payable {}
 }
