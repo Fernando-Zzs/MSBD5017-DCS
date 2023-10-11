@@ -32,7 +32,7 @@ To get started with Scaffold-ETH 2, follow the steps below:
 
 ```
 git clone https://github.com/Fernando-Zzs/MSBD5017-DCS.git
-cd scaffold-eth-2
+cd MSBD5017-DCS
 yarn install
 ```
 
