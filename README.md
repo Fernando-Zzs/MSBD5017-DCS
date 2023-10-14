@@ -7,14 +7,34 @@ This is a salary distribution solution based on blockchain technology. Everyone 
 ## Brief Roadmap
 ### V1.0 minimum viable product
 
-**Owner**
+**What owner can do:**
 * Initialize the contract
 * Initialize the variables in the contract at the beginning of an epoch
+* Deciding who is added to the whitelist
 
-**participant**
+**What participants can do:**
 * View all participants to dicide who to transfer
 * Within a period of epoch, transfer your token to other participants
 * View the token acquisition status of all participants after the epoch
+
+### V1.1 Non-average dispension
+* Introduce Level system
+* Level upgrading and degrading
+
+### V1.2 Generate final result (diagram)
+* All txs can be viewed on the network diagram
+
+### V2.0 Publish ERC20 token for comsuming and dispensing
+* Publish a token called "recognition token" for business
+* Tokens are time-sensitive
+
+### V3.0 Resistance to dishonesty
+* Introduce reviewing system
+
+### V3.1 Find malicious behavior automatically
+
+### V3.2 Make a proposal
+* All users can make a proposal in the community
 
 ## Requirements
 
