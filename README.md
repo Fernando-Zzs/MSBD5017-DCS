@@ -5,36 +5,35 @@
 This is a salary distribution solution based on blockchain technology. Everyone can openly and transparently decide the salary allocation of team members within a cycle through voting. Team members can be effectively motivated through salary allocation that is more in line with their actual level of contribution.
 
 ## Brief Roadmap
-### V1.0 minimum viable product
+### V1.0 最小可行产品（核心功能）
 
-**What owner can do:**
-* Initialize the contract
-* Initialize the variables in the contract at the beginning of an epoch
-* Deciding who is added to the whitelist
+**合约所有者能做：**
+* 初始化合约
+* 周期初初始化所有变量
+* 决定谁将添加到参与者中
 
-**What participants can do:**
-* View all participants to dicide who to transfer
-* Within a period of epoch, transfer your token to other participants
-* View the token acquisition status of all participants after the epoch
+**所有参与者权限**
+* 查看所有用户，决定代币分配
+* 在周期内，进行代币转账交易
+* 查看周期结束后的最终结果（排行榜/网络图）
 
-### V1.1 Non-average dispension
-* Introduce Level system
-* Level upgrading and degrading
+**前端**
+* 修改版面，去掉不需要的组件
+* 用户体验优化（添加用户）
 
-### V1.2 Generate final result (diagram)
-* All txs can be viewed on the network diagram
+### V1.5 引入等级机制（为代币消耗铺垫）
+* 参与者的等级决定了其在每个周期的初始分配的代币数
 
-### V2.0 Publish ERC20 token for comsuming and dispensing
-* Publish a token called "recognition token" for business
-* Tokens are time-sensitive
+### V2.0 发行代币（用于奖励诚实分配者）
+* Vote to earn模式，挖矿的方式是在每个周期内做出合理的投票
+* 参与者的等级可以通过消耗代币提升，不诚实的行为被检举会导致等级降低
 
-### V3.0 Resistance to dishonesty
-* Introduce reviewing system
+### V2.5 参与者可以检举不诚实行为
 
-### V3.1 Find malicious behavior automatically
+### V2.8 引入审查机制（等级高者有此项权利）
+* 在周期结束，结果出来前，审查者随机评审参与者的分配方案
 
-### V3.2 Make a proposal
-* All users can make a proposal in the community
+### V3.0 链上自动检测不诚实行为
 
 ## Requirements
 
