@@ -78,4 +78,19 @@ contract YourContract {
 		balances[msg.sender] -= amount;
 		credits[recipient] += amount;
 	}
+
+	function getRecipientRank(address recipient) public view returns (uint) {
+    	require(credits[recipient] > 0, "Recipient has no credits");
+    
+    	uint rank = 1;
+    
+    	for (uint i = 0; i < participants.length; i++) {
+        	if (participants[i] != recipient && credits[participants[i]] > credits[recipient]) {
+            	rank++;
+        	}
+    	}
+    
+    return rank;
+	}
+
 }
