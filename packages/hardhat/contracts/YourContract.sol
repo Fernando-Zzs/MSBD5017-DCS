@@ -79,32 +79,18 @@ contract YourContract {
 		credits[recipient] += amount;
 	}
 
-	function quickSort(uint[] arr, uint left, uint right) internal {
-        uint i = left;
-        uint j = right;
-        if (i == j) return;
-        uint pivot = arr[left + (right - left) / 2];
-        while (i <= j) {
-            while (arr[i] < pivot) i++;
-            while (pivot < arr[j]) j--;
-            if (i <= j) {
-                (arr[i], arr[j]) = (arr[j], arr[i]);
-                i++;
-                j--;
-            }
-        }
-        if (left < j)
-            quickSort(arr, left, j);
-        if (i < right)
-            quickSort(arr, i, right);
-    }
-
-	function getRecipientRanking() public view returns (uint[]) {
-    	uint[] rank = credits;
+	function getRecipientRank(address recipient) public view returns (uint) {
+    	require(credits[recipient] > 0, "Recipient has no credits");
     
-    	quickSort(rank, 0, rank.length-1);
+    	uint rank = 1;
     
-    return rank;
+    	for (uint i = 0; i < participants.length; i++) {
+        	if (participants[i] != recipient && credits[participants[i]] > credits[recipient]) {
+            	rank++;
+        	}
+    	}
+    
+    	return rank;
 	}
 
 }
