@@ -6,15 +6,29 @@ contract YourContract {
 	address public immutable owner;
 	uint public startTime;
 	uint public endTime;
-	address[] public participants;
-	mapping(address => uint) public credits;
-	mapping(address => uint) public balances;
+
+	enum Level {
+		Basic,
+		Silver,
+		Gold,
+		Platinum
+	}
+	struct User {
+		address userAddress;
+		Level level;
+		uint balance;
+		uint credits;
+	}
+	mapping(address => User) public users;
+	address[] public addresses;
 
 	/* Events */
 
 	/* Constructor */
 	constructor(address _owner) {
 		owner = _owner;
+		startTime = block.timestamp;
+		endTime = block.timestamp + 2592000; // 默认30天有效期
 	}
 
 	/* Modifier */
@@ -26,8 +40,8 @@ contract YourContract {
 	// 效率较低，浪费gas，在v1.1会改进
 	modifier ParticipantOnly() {
 		bool isParticipant = false;
-		for (uint i = 0; i < participants.length; i++) {
-			if (participants[i] == msg.sender) {
+		for (uint i = 0; i < addresses.length; i++) {
+			if (addresses[i] == msg.sender) {
 				isParticipant = true;
 				break;
 			}
@@ -36,46 +50,67 @@ contract YourContract {
 		_;
 	}
 
+	modifier duringActivePeriod() {
+		require(
+			block.timestamp >= startTime && block.timestamp <= endTime,
+			"Contract is not active"
+		);
+		_;
+	}
+
 	/* Function for Owner */
-	function initEpochInfo(
-		uint _startTime,
-		uint _endTime,
-		address[] memory _participants
-	) public OwnerOnly {
+	function setStartTime(uint _startTime) public OwnerOnly {
 		startTime = _startTime;
+	}
+
+	function setEndTime(uint _endTime) public OwnerOnly {
 		endTime = _endTime;
-		participants = _participants;
-
-		initBalances();
-		initCredits();
 	}
 
-	// 平均分配，在v2.0版本引入DID会改进
-	function initBalances() internal {
-		for (uint i = 0; i < participants.length; i++) {
-			balances[participants[i]] = 100;
+	function initBalancesAndCredits() public OwnerOnly {
+		for (uint i = 0; i < addresses.length; i++) {
+			address addr = addresses[i];
+			users[addr].credits = 0;
+			users[addr].balance = dispenseAlgo(users[addr].level);
 		}
 	}
 
-	function initCredits() internal {
-		for (uint i = 0; i < participants.length; i++) {
-			credits[participants[i]] = 0;
-		}
+	function addUsers(address addr, Level level) public OwnerOnly {
+		User memory user = User(addr, level, 0, 0);
+		users[addr] = user;
+		addresses.push(addr);
+	}
+
+	function upgradeLevel(address addr) internal OwnerOnly {
+		require(users[addr].level != Level.Platinum, "Already highest level");
+		uint intValue = uint(users[addr].level);
+		intValue += 1;
+		users[addr].level = Level(intValue);
+	}
+
+	function degradeLevel(address addr) internal OwnerOnly {
+		require(users[addr].level != Level.Basic, "Already lowest level");
+		uint intValue = uint(users[addr].level);
+		intValue -= 1;
+		users[addr].level = Level(intValue);
+	}
+
+	function dispenseAlgo(Level level) internal pure returns (uint) {
+		if (level == Level.Basic) return 100;
+		else if (level == Level.Silver) return 200;
+		else if (level == Level.Gold) return 300;
+		else return 400;
 	}
 
 	/* Function for Participants */
 	function transferTokens(
 		address recipient,
 		uint amount
-	) public ParticipantOnly {
-		require(
-			block.timestamp >= startTime && block.timestamp < endTime,
-			"Transfer not allowed outside the time period"
-		);
+	) public ParticipantOnly duringActivePeriod {
 		require(amount > 0, "Amount must be greater than zero");
-		require(balances[msg.sender] >= amount, "Insufficient balance");
+		require(users[msg.sender].balance >= amount, "Insufficient balance");
 
-		balances[msg.sender] -= amount;
-		credits[recipient] += amount;
+		users[msg.sender].balance -= amount;
+		users[recipient].credits += amount;
 	}
 }
