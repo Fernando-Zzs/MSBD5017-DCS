@@ -109,6 +109,7 @@ contract YourContract {
 	) public ParticipantOnly duringActivePeriod {
 		require(amount > 0, "Amount must be greater than zero");
 		require(users[msg.sender].balance >= amount, "Insufficient balance");
+		require(msg.sender != recipient, "Can not transfer to yourself");
 
 		users[msg.sender].balance -= amount;
 		users[recipient].credits += amount;
