@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         YourContract: {
-          address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+          address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
           abi: [
             {
               inputs: [
@@ -17,6 +17,88 @@ const contracts = {
               ],
               stateMutability: "nonpayable",
               type: "constructor",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "addr",
+                  type: "address",
+                },
+                {
+                  indexed: false,
+                  internalType: "enum YourContract.Level",
+                  name: "level",
+                  type: "uint8",
+                },
+              ],
+              name: "gradeChanged",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [],
+              name: "initFinished",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "uint256",
+                  name: "startTime",
+                  type: "uint256",
+                },
+                {
+                  indexed: false,
+                  internalType: "uint256",
+                  name: "endTime",
+                  type: "uint256",
+                },
+              ],
+              name: "timeChanged",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "from",
+                  type: "address",
+                },
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "to",
+                  type: "address",
+                },
+                {
+                  indexed: false,
+                  internalType: "uint256",
+                  name: "amount",
+                  type: "uint256",
+                },
+              ],
+              name: "transferFinished",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "newGuy",
+                  type: "address",
+                },
+              ],
+              name: "userChanged",
+              type: "event",
             },
             {
               inputs: [

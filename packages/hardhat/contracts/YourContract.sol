@@ -23,6 +23,11 @@ contract YourContract {
 	address[] public addresses;
 
 	/* Events */
+	event timeChanged(uint startTime, uint endTime);
+	event userChanged(address newGuy);
+	event initFinished();
+	event gradeChanged(address addr, Level level);
+	event transferFinished(address from, address to, uint amount);
 
 	/* Constructor */
 	constructor(address _owner) {
@@ -61,10 +66,12 @@ contract YourContract {
 	/* Function for Owner */
 	function setStartTime(uint _startTime) public OwnerOnly {
 		startTime = _startTime;
+		emit timeChanged(startTime, endTime);
 	}
 
 	function setEndTime(uint _endTime) public OwnerOnly {
 		endTime = _endTime;
+		emit timeChanged(startTime, endTime);
 	}
 
 	function initBalancesAndCredits() public OwnerOnly {
@@ -73,12 +80,14 @@ contract YourContract {
 			users[addr].credits = 0;
 			users[addr].balance = dispenseAlgo(users[addr].level);
 		}
+		emit initFinished();
 	}
 
 	function addUsers(address addr, Level level) public OwnerOnly {
 		User memory user = User(addr, level, 0, 0);
 		users[addr] = user;
 		addresses.push(addr);
+		emit userChanged(addr);
 	}
 
 	function upgradeLevel(address addr) internal OwnerOnly {
@@ -86,6 +95,7 @@ contract YourContract {
 		uint intValue = uint(users[addr].level);
 		intValue += 1;
 		users[addr].level = Level(intValue);
+		emit gradeChanged(addr, users[addr].level);
 	}
 
 	function degradeLevel(address addr) internal OwnerOnly {
@@ -93,6 +103,7 @@ contract YourContract {
 		uint intValue = uint(users[addr].level);
 		intValue -= 1;
 		users[addr].level = Level(intValue);
+		emit gradeChanged(addr, users[addr].level);
 	}
 
 	function dispenseAlgo(Level level) internal pure returns (uint) {
@@ -113,5 +124,6 @@ contract YourContract {
 
 		users[msg.sender].balance -= amount;
 		users[recipient].credits += amount;
+		emit transferFinished(msg.sender, recipient, amount);
 	}
 }
