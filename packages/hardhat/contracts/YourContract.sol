@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-import './myToken.sol';
+import "./myToken.sol";
 
 contract YourContract {
 	/* State Variables */
@@ -136,6 +136,52 @@ contract YourContract {
 		users[msg.sender].balance -= amount;
 		users[recipient].credits += amount;
 		emit transferFinished(msg.sender, recipient, amount);
+	}
+
+	// 按照credits数目从大到小排序
+	function sortUsersByCredits() public view returns (User[] memory) {
+		uint length = addresses.length;
+		User[] memory sortedUsers = new User[](length);
+
+		for (uint i = 0; i < length; i++) {
+			sortedUsers[i] = users[addresses[i]];
+		}
+
+		quickSort(sortedUsers, int(0), int(length - 1));
+
+		return sortedUsers;
+	}
+
+	// 快速排序算法
+	function quickSort(User[] memory arr, int left, int right) internal pure {
+		if (left < right) {
+			int pivotIndex = partition(arr, left, right);
+			quickSort(arr, left, pivotIndex - 1);
+			quickSort(arr, pivotIndex + 1, right);
+		}
+	}
+
+	function partition(
+		User[] memory arr,
+		int left,
+		int right
+	) internal pure returns (int) {
+		User memory pivot = arr[uint(right)];
+		int i = left - 1;
+
+		for (int j = left; j < right; j++) {
+			if (arr[uint(j)].credits >= pivot.credits) {
+				i++;
+				(arr[uint(i)], arr[uint(j)]) = (arr[uint(j)], arr[uint(i)]);
+			}
+		}
+
+		(arr[uint(i + 1)], arr[uint(right)]) = (
+			arr[uint(right)],
+			arr[uint(i + 1)]
+		);
+
+		return i + 1;
 	}
 
 	function initToken() public{

@@ -198,6 +198,41 @@ const contracts = {
             },
             {
               inputs: [],
+              name: "sortUsersByCredits",
+              outputs: [
+                {
+                  components: [
+                    {
+                      internalType: "address",
+                      name: "userAddress",
+                      type: "address",
+                    },
+                    {
+                      internalType: "enum YourContract.Level",
+                      name: "level",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "balance",
+                      type: "uint256",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "credits",
+                      type: "uint256",
+                    },
+                  ],
+                  internalType: "struct YourContract.User[]",
+                  name: "",
+                  type: "tuple[]",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
               name: "startTime",
               outputs: [
                 {
