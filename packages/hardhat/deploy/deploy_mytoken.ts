@@ -1,7 +1,6 @@
 import { DeployFunction } from "hardhat-deploy/types";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { ethers, Wallet } from "ethers";
-import QRCode from "qrcode";
 
 /**
  * Deploys a contract named "YourContract" using the deployer account and
@@ -26,13 +25,12 @@ const deployMyToken: DeployFunction = async function (hre: HardhatRuntimeEnviron
     const tokenDeployment = await deploy("MSBD5017Token", {
         from: deployer,
         // Contract constructor arguments
-        args: [deployer],
+        args: [deployer, '0'],
         log: true,
         // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
         // automatically mining the contract deployment transaction. There is no effect on live networks.
         autoMine: true,
     });
-
 
     // Get the deployed contract
     // const yourContract = await hre.ethers.getContract("YourContract", deployer);
