@@ -118,6 +118,10 @@ const config: HardhatUserConfig = {
       url: "https://sepolia-rpc.scroll.io",
       accounts: [deployerPrivateKey],
     },
+    etherdata: {
+      url: "http://rpc.debugchain.net",
+      accounts: process.env.PK !== undefined ? [process.env.PK] : [],
+    },
   },
   verify: {
     etherscan: {
