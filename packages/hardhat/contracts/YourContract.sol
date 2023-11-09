@@ -23,7 +23,6 @@ contract YourContract {
 	}
 
 	mapping(address => User) public users;
-	mapping(address => MSBD5017Token) public usersTokens;
 	address[] public addresses;
 
 	/* Events */
@@ -117,13 +116,6 @@ contract YourContract {
 		else return 400;
 	}
 
-	function dispenseAlgoToken(Level level) internal pure returns (uint) {
-		if (level == Level.Basic) return 100000000000000000000000;
-		else if (level == Level.Silver) return 200000000000000000000000;
-		else if (level == Level.Gold) return 300000000000000000000000;
-		else return 400000000000000000000000;
-	}
-
 	/* Function for Participants */
 	function transferTokens(
 		address recipient,
@@ -183,21 +175,4 @@ contract YourContract {
 
 		return i + 1;
 	}
-
-	function initToken() public{
-		for (uint i = 0; i < addresses.length; i++) {
-			address addr = addresses[i];
-			usersTokens[addr]= new MSBD5017Token(addr, 100000000000000000000000);
-		}
-	}
-
-	function transferM57Token(address recipient,uint amount) public{
-		require(amount > 0, "Amount must be greater than zero");
-    	require(usersTokens[msg.sender].balanceOf(msg.sender) >= amount, "Insufficient M57 token balance");
-    	require(msg.sender != recipient, "Can not transfer M57 token to yourself");
-
-    	// 使用用户的 M57 令牌合约来执行代币转移
-    	usersTokens[msg.sender].transferToken(recipient, amount);
-	}
-
 }

@@ -4,8 +4,8 @@ const contracts = {
       chainId: "31337",
       name: "localhost",
       contracts: {
-        MSBD5017Token: {
-          address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
+        DCSTOKEN: {
+          address: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
           abi: [
             {
               inputs: [
@@ -13,11 +13,6 @@ const contracts = {
                   internalType: "address",
                   name: "_owner",
                   type: "address",
-                },
-                {
-                  internalType: "uint256",
-                  name: "amount",
-                  type: "uint256",
                 },
               ],
               stateMutability: "nonpayable",
@@ -202,6 +197,19 @@ const contracts = {
               type: "function",
             },
             {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "amount",
+                  type: "uint256",
+                },
+              ],
+              name: "mint",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
               inputs: [],
               name: "name",
               outputs: [
@@ -306,28 +314,10 @@ const contracts = {
               stateMutability: "nonpayable",
               type: "function",
             },
-            {
-              inputs: [
-                {
-                  internalType: "address",
-                  name: "recipient",
-                  type: "address",
-                },
-                {
-                  internalType: "uint256",
-                  name: "amount",
-                  type: "uint256",
-                },
-              ],
-              name: "transferToken",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
           ],
         },
         YourContract: {
-          address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+          address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
           abi: [
             {
               inputs: [
@@ -481,13 +471,6 @@ const contracts = {
             },
             {
               inputs: [],
-              name: "initToken",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [],
               name: "owner",
               outputs: [
                 {
@@ -586,24 +569,6 @@ const contracts = {
                   type: "uint256",
                 },
               ],
-              name: "transferM57Token",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [
-                {
-                  internalType: "address",
-                  name: "recipient",
-                  type: "address",
-                },
-                {
-                  internalType: "uint256",
-                  name: "amount",
-                  type: "uint256",
-                },
-              ],
               name: "transferTokens",
               outputs: [],
               stateMutability: "nonpayable",
@@ -638,25 +603,6 @@ const contracts = {
                   internalType: "uint256",
                   name: "credits",
                   type: "uint256",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-            {
-              inputs: [
-                {
-                  internalType: "address",
-                  name: "",
-                  type: "address",
-                },
-              ],
-              name: "usersTokens",
-              outputs: [
-                {
-                  internalType: "contract MSBD5017Token",
-                  name: "",
-                  type: "address",
                 },
               ],
               stateMutability: "view",
