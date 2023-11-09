@@ -17,7 +17,7 @@ describe("YourContract", function () {
     yourContract.addUsers(`0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC`, 2); //300
     yourContract.addUsers(`0x90F79bf6EB2c4f870365E785982E1f101E93b906`, 3); //400
     yourContract.addUsers(`0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65`, 0); //100
-    yourContract.initBalancesAndCredits();
+    yourContract.initEpoch(2592000);
 
     yourContract.transferTokens(`0x70997970C51812dc3A010C7d01b50e0d17dc79C8`, 120);
     yourContract.transferTokens(`0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC`, 60);
@@ -29,7 +29,7 @@ describe("YourContract", function () {
 
   describe("testSorting", function () {
     it("test", async function () {
-      const sortedUsers = await yourContract.sortUsersByCredits();
+      const sortedUsers = await yourContract.updateUserRanking();
 
       for (let i = 1; i < sortedUsers.length; i++) {
         expect(sortedUsers[i].credits).to.be.at.most(sortedUsers[i - 1].credits);
