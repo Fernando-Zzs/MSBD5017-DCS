@@ -26,17 +26,16 @@ contract YourContract {
 	address[] public addresses;
 
 	/* Events */
-	event timeChanged(uint startTime, uint endTime);
+	event newEpochStart(uint startTime, uint endTime);
 	event userChanged(address newGuy);
-	event initFinished();
 	event gradeChanged(address addr, Level level);
 	event transferFinished(address from, address to, uint amount);
 
 	/* Constructor */
 	constructor(address _owner) {
 		owner = _owner;
-		startTime = block.timestamp;
-		endTime = block.timestamp + 2592000; // 默认30天有效期
+		// startTime = block.timestamp;
+		// endTime = block.timestamp + 2592000; // 默认30天有效期
 	}
 
 	/* Modifier */
@@ -66,24 +65,39 @@ contract YourContract {
 		_;
 	}
 
+	modifier afterActivePeriod() {
+		require(
+			block.timestamp < startTime || block.timestamp > endTime,
+			"Contract is active"
+		);
+		_;
+	}
+
 	/* Function for Owner */
-	function setStartTime(uint _startTime) public OwnerOnly {
-		startTime = _startTime;
-		emit timeChanged(startTime, endTime);
+	function mockUsers() public OwnerOnly {
+		addUsers(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, Level.Platinum);
+		addUsers(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, Level.Silver); //200
+		addUsers(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, Level.Gold); //300
+		addUsers(0x90F79bf6EB2c4f870365E785982E1f101E93b906, Level.Platinum); //400
+		addUsers(0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65, Level.Basic); //100
 	}
 
-	function setEndTime(uint _endTime) public OwnerOnly {
-		endTime = _endTime;
-		emit timeChanged(startTime, endTime);
+	function mockTransfer() public OwnerOnly {
+		transferTokens(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, 120);
+		transferTokens(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, 60);
+		transferTokens(0x90F79bf6EB2c4f870365E785982E1f101E93b906, 70);
+		transferTokens(0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65, 150);
 	}
 
-	function initBalancesAndCredits() public OwnerOnly {
+	function initEpoch(uint period) public OwnerOnly {
+		startTime = block.timestamp;
+		endTime = startTime + period;
 		for (uint i = 0; i < addresses.length; i++) {
 			address addr = addresses[i];
 			users[addr].credits = 0;
 			users[addr].balance = dispenseAlgo(users[addr].level);
 		}
-		emit initFinished();
+		emit newEpochStart(startTime, endTime);
 	}
 
 	function addUsers(address addr, Level level) public OwnerOnly {
@@ -93,7 +107,7 @@ contract YourContract {
 		emit userChanged(addr);
 	}
 
-	function upgradeLevel(address addr) internal OwnerOnly {
+	function upgradeLevel(address addr) internal OwnerOnly afterActivePeriod {
 		require(users[addr].level != Level.Platinum, "Already highest level");
 		uint intValue = uint(users[addr].level);
 		intValue += 1;
@@ -101,7 +115,7 @@ contract YourContract {
 		emit gradeChanged(addr, users[addr].level);
 	}
 
-	function degradeLevel(address addr) internal OwnerOnly {
+	function degradeLevel(address addr) internal OwnerOnly afterActivePeriod {
 		require(users[addr].level != Level.Basic, "Already lowest level");
 		uint intValue = uint(users[addr].level);
 		intValue -= 1;
@@ -130,17 +144,18 @@ contract YourContract {
 		emit transferFinished(msg.sender, recipient, amount);
 	}
 
-	// 按照credits数目从大到小排序
-	function sortUsersByCredits() public view returns (User[] memory) {
+	function updateUserRanking()
+		public
+		view
+		ParticipantOnly
+		returns (User[] memory)
+	{
 		uint length = addresses.length;
 		User[] memory sortedUsers = new User[](length);
-
 		for (uint i = 0; i < length; i++) {
 			sortedUsers[i] = users[addresses[i]];
 		}
-
 		quickSort(sortedUsers, int(0), int(length - 1));
-
 		return sortedUsers;
 	}
 
@@ -160,19 +175,16 @@ contract YourContract {
 	) internal pure returns (int) {
 		User memory pivot = arr[uint(right)];
 		int i = left - 1;
-
 		for (int j = left; j < right; j++) {
 			if (arr[uint(j)].credits >= pivot.credits) {
 				i++;
 				(arr[uint(i)], arr[uint(j)]) = (arr[uint(j)], arr[uint(i)]);
 			}
 		}
-
 		(arr[uint(i + 1)], arr[uint(right)]) = (
 			arr[uint(right)],
 			arr[uint(i + 1)]
 		);
-
 		return i + 1;
 	}
 }
