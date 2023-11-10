@@ -8,6 +8,7 @@ contract YourContract {
 	address public immutable owner;
 	uint public startTime;
 	uint public endTime;
+	uint internal totalParticipants;
 
 	enum Level {
 		Basic,
@@ -76,17 +77,18 @@ contract YourContract {
 	/* Function for Owner */
 	function mockUsers() public OwnerOnly {
 		addUsers(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, Level.Platinum);
-		addUsers(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, Level.Silver); //200
-		addUsers(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, Level.Gold); //300
-		addUsers(0x90F79bf6EB2c4f870365E785982E1f101E93b906, Level.Platinum); //400
-		addUsers(0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65, Level.Basic); //100
+		addUsers(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, Level.Silver); //6
+		addUsers(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, Level.Gold); //8
+		addUsers(0x90F79bf6EB2c4f870365E785982E1f101E93b906, Level.Platinum); //10
+		addUsers(0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65, Level.Basic); //4
+		totalParticipants += 5;
 	}
 
 	function mockTransfer() public OwnerOnly {
-		transferTokens(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, 120);
-		transferTokens(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, 60);
-		transferTokens(0x90F79bf6EB2c4f870365E785982E1f101E93b906, 70);
-		transferTokens(0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65, 150);
+		transferTokens(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, 2);
+		transferTokens(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, 3);
+		transferTokens(0x90F79bf6EB2c4f870365E785982E1f101E93b906, 1);
+		transferTokens(0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65, 3);
 	}
 
 	function initEpoch(uint period) public OwnerOnly {
@@ -104,6 +106,7 @@ contract YourContract {
 		User memory user = User(addr, level, 0, 0);
 		users[addr] = user;
 		addresses.push(addr);
+		totalParticipants++;
 		emit userChanged(addr);
 	}
 
@@ -123,11 +126,12 @@ contract YourContract {
 		emit gradeChanged(addr, users[addr].level);
 	}
 
-	function dispenseAlgo(Level level) internal pure returns (uint) {
-		if (level == Level.Basic) return 100;
-		else if (level == Level.Silver) return 200;
-		else if (level == Level.Gold) return 300;
-		else return 400;
+	function dispenseAlgo(Level level) internal returns (uint) {
+		uint8[4] memory weights=[11,16,21,26];
+		if (level == Level.Basic) return totalParticipants*weights[0]/10;
+		else if (level == Level.Silver) return totalParticipants*weights[1]/10;
+		else if (level == Level.Gold) return totalParticipants*weights[2]/10;
+		else return totalParticipants*weights[3]/10;
 	}
 
 	/* Function for Participants */
