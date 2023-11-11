@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         DCSTOKEN: {
-          address: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+          address: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
           abi: [
             {
               inputs: [
@@ -199,8 +199,13 @@ const contracts = {
             {
               inputs: [
                 {
+                  internalType: "address",
+                  name: "_contract",
+                  type: "address",
+                },
+                {
                   internalType: "uint256",
-                  name: "amount",
+                  name: "_amount",
                   type: "uint256",
                 },
               ],
@@ -317,13 +322,18 @@ const contracts = {
           ],
         },
         YourContract: {
-          address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+          address: "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d",
           abi: [
             {
               inputs: [
                 {
                   internalType: "address",
                   name: "_owner",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "tokenAddress",
                   type: "address",
                 },
               ],
@@ -351,12 +361,6 @@ const contracts = {
             },
             {
               anonymous: false,
-              inputs: [],
-              name: "initFinished",
-              type: "event",
-            },
-            {
-              anonymous: false,
               inputs: [
                 {
                   indexed: false,
@@ -371,7 +375,7 @@ const contracts = {
                   type: "uint256",
                 },
               ],
-              name: "timeChanged",
+              name: "newEpochStart",
               type: "event",
             },
             {
@@ -450,6 +454,24 @@ const contracts = {
               type: "function",
             },
             {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "_recipient",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "_amount",
+                  type: "uint256",
+                },
+              ],
+              name: "dispenseTokens",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
               inputs: [],
               name: "endTime",
               outputs: [
@@ -463,8 +485,28 @@ const contracts = {
               type: "function",
             },
             {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "period",
+                  type: "uint256",
+                },
+              ],
+              name: "initEpoch",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
               inputs: [],
-              name: "initBalancesAndCredits",
+              name: "mockTransfer",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "mockUsers",
               outputs: [],
               stateMutability: "nonpayable",
               type: "function",
@@ -477,67 +519,6 @@ const contracts = {
                   internalType: "address",
                   name: "",
                   type: "address",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-            {
-              inputs: [
-                {
-                  internalType: "uint256",
-                  name: "_endTime",
-                  type: "uint256",
-                },
-              ],
-              name: "setEndTime",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [
-                {
-                  internalType: "uint256",
-                  name: "_startTime",
-                  type: "uint256",
-                },
-              ],
-              name: "setStartTime",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "sortUsersByCredits",
-              outputs: [
-                {
-                  components: [
-                    {
-                      internalType: "address",
-                      name: "userAddress",
-                      type: "address",
-                    },
-                    {
-                      internalType: "enum YourContract.Level",
-                      name: "level",
-                      type: "uint8",
-                    },
-                    {
-                      internalType: "uint256",
-                      name: "balance",
-                      type: "uint256",
-                    },
-                    {
-                      internalType: "uint256",
-                      name: "credits",
-                      type: "uint256",
-                    },
-                  ],
-                  internalType: "struct YourContract.User[]",
-                  name: "",
-                  type: "tuple[]",
                 },
               ],
               stateMutability: "view",
@@ -572,6 +553,41 @@ const contracts = {
               name: "transferTokens",
               outputs: [],
               stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "updateUserRanking",
+              outputs: [
+                {
+                  components: [
+                    {
+                      internalType: "address",
+                      name: "userAddress",
+                      type: "address",
+                    },
+                    {
+                      internalType: "enum YourContract.Level",
+                      name: "level",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "balance",
+                      type: "uint256",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "credits",
+                      type: "uint256",
+                    },
+                  ],
+                  internalType: "struct YourContract.User[]",
+                  name: "",
+                  type: "tuple[]",
+                },
+              ],
+              stateMutability: "view",
               type: "function",
             },
             {

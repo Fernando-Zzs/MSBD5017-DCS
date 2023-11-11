@@ -11,8 +11,8 @@ contract DCSTOKEN is ERC20 {
 		owner = _owner;
 	}
 
-	function mint(uint amount) public {
+	function mint(address _contract, uint _amount) public {
 		require(msg.sender == owner, "Only owner can mint");
-		_mint(owner, amount);
+		_mint(_contract, _amount);
 	}
 }

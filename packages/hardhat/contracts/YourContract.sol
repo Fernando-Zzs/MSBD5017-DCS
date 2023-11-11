@@ -10,6 +10,8 @@ contract YourContract {
 	uint public endTime;
 	uint internal totalParticipants;
 
+	DCSTOKEN dcsToken;
+
 	enum Level {
 		Basic,
 		Silver,
@@ -33,8 +35,9 @@ contract YourContract {
 	event transferFinished(address from, address to, uint amount);
 
 	/* Constructor */
-	constructor(address _owner) {
+	constructor(address _owner, address tokenAddress) {
 		owner = _owner;
+		dcsToken = DCSTOKEN(tokenAddress);
 		// startTime = block.timestamp;
 		// endTime = block.timestamp + 2592000; // 默认30天有效期
 	}
@@ -127,11 +130,18 @@ contract YourContract {
 	}
 
 	function dispenseAlgo(Level level) internal returns (uint) {
-		uint8[4] memory weights=[11,16,21,26];
-		if (level == Level.Basic) return totalParticipants*weights[0]/10;
-		else if (level == Level.Silver) return totalParticipants*weights[1]/10;
-		else if (level == Level.Gold) return totalParticipants*weights[2]/10;
-		else return totalParticipants*weights[3]/10;
+		uint8[4] memory weights = [11, 16, 21, 26];
+		if (level == Level.Basic) return (totalParticipants * weights[0]) / 10;
+		else if (level == Level.Silver)
+			return (totalParticipants * weights[1]) / 10;
+		else if (level == Level.Gold)
+			return (totalParticipants * weights[2]) / 10;
+		else return (totalParticipants * weights[3]) / 10;
+	}
+
+	function dispenseTokens(address _recipient, uint _amount) public OwnerOnly {
+		bool sent = dcsToken.transfer(_recipient, _amount);
+		require(sent, "Failed to transfer token to user");
 	}
 
 	/* Function for Participants */
