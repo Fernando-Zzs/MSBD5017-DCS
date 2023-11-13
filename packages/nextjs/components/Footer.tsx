@@ -1,8 +1,6 @@
+import { CurrencyDollarIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { hardhat } from "wagmi/chains";
-import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
-import { HeartIcon } from "@heroicons/react/24/outline";
 import { SwitchTheme } from "~~/components/SwitchTheme";
-import { BuidlGuidlLogo } from "~~/components/assets/BuidlGuidlLogo";
 import { Faucet } from "~~/components/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
 import { getTargetNetwork } from "~~/utils/scaffold-eth";
@@ -33,16 +31,18 @@ export const Footer = () => {
         <ul className="menu menu-horizontal w-full">
           <div className="flex justify-center items-center gap-2 text-sm w-full">
             <div className="text-center">
+              <HeartIcon className="inline-block h-4 w-4" />
               <a
-                href="https://github.com/scaffold-eth/se-2"
+                href="https://github.com/Fernando-Zzs/MSBD5017-DCS"
                 target="_blank"
                 rel="noreferrer"
                 className="underline underline-offset-2"
               >
-                Fork me
+                GitHub Repository
               </a>
+              <HeartIcon className="inline-block h-4 w-4" />
             </div>
-            <span>·</span>
+            {/* <span>·</span>
             <div className="flex justify-center items-center gap-2">
               <p className="m-0 text-center">
                 Built with <HeartIcon className="inline-block h-4 w-4" /> at
@@ -67,7 +67,7 @@ export const Footer = () => {
               >
                 Support
               </a>
-            </div>
+            </div> */}
           </div>
         </ul>
       </div>

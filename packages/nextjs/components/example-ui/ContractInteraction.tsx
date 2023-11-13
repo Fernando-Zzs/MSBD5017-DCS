@@ -25,7 +25,7 @@ export const ContractInteraction = () => {
       <HareIcon className="absolute right-0 bottom-24" />
       <div className="flex flex-col w-full mx-5 sm:mx-8 2xl:mx-20">
         <div className="flex flex-col mt-6 px-7 py-8 bg-base-200 opacity-80 rounded-2xl shadow-lg border-2 border-primary">
-          <span className="text-4xl sm:text-3xl text-black">Vote For Contributers</span>
+          <span className="text-4xl sm:text-3xl font-bai-jamjuree">Vote For Contributers</span>
 
           <div className="mt-8 flex flex-col items-start sm:items-center gap-2 sm:gap-5">
             <input
