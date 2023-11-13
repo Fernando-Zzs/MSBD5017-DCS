@@ -1,11 +1,11 @@
 const contracts = {
-  31337: [
+  11155111: [
     {
-      chainId: "31337",
-      name: "localhost",
+      chainId: "11155111",
+      name: "sepolia",
       contracts: {
         DCSTOKEN: {
-          address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+          address: "0x18978acF54162a2ea9bA1eC162323E7DF72679fD",
           abi: [
             {
               inputs: [
@@ -322,18 +322,13 @@ const contracts = {
           ],
         },
         YourContract: {
-          address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+          address: "0x443729DFF68Dcc675463b0ED918ae57E00A3133b",
           abi: [
             {
               inputs: [
                 {
                   internalType: "address",
                   name: "_owner",
-                  type: "address",
-                },
-                {
-                  internalType: "address",
-                  name: "tokenAddress",
                   type: "address",
                 },
               ],
@@ -522,6 +517,19 @@ const contracts = {
                 },
               ],
               stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "tokenAddress",
+                  type: "address",
+                },
+              ],
+              name: "setTokenAddr",
+              outputs: [],
+              stateMutability: "nonpayable",
               type: "function",
             },
             {

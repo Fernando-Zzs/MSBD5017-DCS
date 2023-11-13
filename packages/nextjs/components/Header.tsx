@@ -51,7 +51,7 @@ export const Header = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink href="/blockexplorer">
+        <NavLink href="https://sepolia.etherscan.io/address/0x443729DFF68Dcc675463b0ED918ae57E00A3133b">
           <MagnifyingGlassIcon className="h-4 w-4" />
           Block Explorer
         </NavLink>
