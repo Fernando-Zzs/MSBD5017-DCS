@@ -159,7 +159,7 @@ contract YourContract {
 		emit transferFinished(msg.sender, recipient, amount);
 	}
 
-	function updateUserRanking() public view returns (User[] memory) {
+	function updateUserRanking() public returns (User[] memory) {
 		uint length = addresses.length;
 		User[] memory sortedUsers = new User[](length);
 		for (uint i = 0; i < length; i++) {
@@ -167,6 +167,20 @@ contract YourContract {
 		}
 		quickSort(sortedUsers, int(0), int(length - 1));
 		return sortedUsers;
+	}
+
+	function autoTransfer() public OwnerOnly{
+		uint length = addresses.length;
+		User[] memory sortedUsers = new User[](length);
+		sortedUsers = updateUserRanking();
+		for (uint i = 0; i < length; i++) {
+			if(i<=length*3/10)
+				dispenseTokens(sortedUsers[i].userAddress,100000000000000000000);
+			else if(i<=length*6/10)
+				dispenseTokens(sortedUsers[i].userAddress,60000000000000000000);
+			else
+				dispenseTokens(sortedUsers[i].userAddress,40000000000000000000);
+		}
 	}
 
 	// 快速排序算法
