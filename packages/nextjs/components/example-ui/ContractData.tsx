@@ -25,7 +25,7 @@ export const ContractData = () => {
 
   function convertTimestampToString(unixTimestamp: string): string {
     const timestampInSeconds = parseInt(unixTimestamp, 10);
-    const date = new Date(timestampInSeconds * 1000); // 注意需要将秒转换为毫秒
+    const date = new Date(timestampInSeconds * 1000);
 
     return date.toLocaleString();
   }

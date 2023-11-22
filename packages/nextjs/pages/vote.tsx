@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { MetaHeader } from "~~/components/MetaHeader";
-import { ContractData } from "~~/components/example-ui/ContractData";
 import { ContractInteraction } from "~~/components/example-ui/ContractInteraction";
+import { UserData } from "~~/components/example-ui/UserData";
 
 const RecipientRanking: NextPage = () => {
     return (
@@ -14,9 +14,11 @@ const RecipientRanking: NextPage = () => {
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet" />
             </MetaHeader>
-            <div className="grid lg:grid-cols-2 flex-grow">
-                <ContractInteraction />
-                <ContractData />
+            <div className="flex justify-center">
+                <div className="max-w-4xl w-full">
+                    <UserData />
+                    <ContractInteraction />
+                </div>
             </div>
         </>
     );
