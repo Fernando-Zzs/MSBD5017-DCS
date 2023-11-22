@@ -1,9 +1,6 @@
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-import { CopyIcon } from "./assets/CopyIcon";
-import { DiamondIcon } from "./assets/DiamondIcon";
-import { HareIcon } from "./assets/HareIcon";
 
 export const ContractInteraction = () => {
   const [reciAddr, setReciAddr] = useState("");
@@ -20,12 +17,12 @@ export const ContractInteraction = () => {
 
   return (
     <div className="flex justify-center items-center bg-base-200 relative pb-10">
-      <DiamondIcon className="absolute top-24" />
+      {/* <DiamondIcon className="absolute top-24" />
       <CopyIcon className="absolute bottom-0 left-36" />
-      <HareIcon className="absolute right-0 bottom-24" />
+      <HareIcon className="absolute right-0 bottom-24" /> */}
       <div className="flex flex-col w-full mx-5 sm:mx-8 2xl:mx-20">
         <div className="flex flex-col mt-6 px-7 py-8 bg-base-200 opacity-80 rounded-2xl shadow-lg border-2 border-primary">
-          <span className="text-4xl sm:text-3xl font-bai-jamjuree">Vote For Contributers</span>
+          <span className="text-4xl sm:text-3xl font-bai-jamjuree">Vote Board</span>
 
           <div className="mt-8 flex flex-col items-start sm:items-center gap-2 sm:gap-5">
             <input

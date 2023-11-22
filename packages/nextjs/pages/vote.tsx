@@ -14,9 +14,11 @@ const RecipientRanking: NextPage = () => {
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet" />
             </MetaHeader>
-            <div className="flex justify-center">
-                <div className="max-w-4xl w-full">
+            <div className="grid lg:grid-cols-3 flex-grow">
+                <div className="col-span-1">
                     <UserData />
+                </div>
+                <div className="col-span-2">
                     <ContractInteraction />
                 </div>
             </div>

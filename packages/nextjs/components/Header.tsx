@@ -3,8 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useRef, useState } from "react";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { hardhat } from "wagmi/chains";
+import { SwitchTheme } from "~~/components/SwitchTheme";
+import { Faucet, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
+import { getTargetNetwork } from "~~/utils/scaffold-eth";
+
 
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
   const router = useRouter();
@@ -96,8 +100,9 @@ export const Header = () => {
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">{navLinks}</ul>
       </div>
       <div className="navbar-end flex-grow mr-4">
+        {getTargetNetwork().id === hardhat.id && <Faucet />}
         <RainbowKitCustomConnectButton />
-        <FaucetButton />
+        <SwitchTheme className="pointer-events-auto" />
       </div>
     </div>
   );

@@ -35,10 +35,15 @@ export const UserData = () => {
     }
   }
 
+  function formatBalance(balance: bigint): string {
+    const etherValue = Number(balance) / 10 ** 18;
+    return etherValue.toFixed(2);
+  }
+
   return (
     <div className="flex flex-col justify-center items-center bg-[length:100%_100%] py-10 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
-      <div className={`flex flex-col max-w-2xl bg-base-200 bg-opacity-70 rounded-2xl shadow-md px-6 py-5 w-full`}>
-        <div className="mt-3 overflow-hidden text-[20px] whitespace-nowrap w-full font-bai-jamjuree">
+      <div className={`flex flex-col max-w-sm bg-base-200 bg-opacity-70 rounded-2xl shadow-md px-6 py-5 w-full`}>
+        <div className="mt-3 overflow-hidden text-[17px] whitespace-nowrap w-full font-bai-jamjuree">
           {userArray &&
             userArray
               .filter((user) => user.userAddress === address)
@@ -46,7 +51,7 @@ export const UserData = () => {
                 <div key={index} className="mb-4 p-4 rounded">
                   <div className="flex flex-col">
                     <div>
-                      <Address address={user.userAddress} />
+                      <Address address={user.userAddress} disableAddressLink={true} size="3xl" />
                     </div>
                     <div>
                       <span>LEVEL</span>{" "}
@@ -61,7 +66,7 @@ export const UserData = () => {
                       {user.credits?.toString()}
                     </div>
                     <div>
-                      <span>TOKEN</span> {token?.toString()}
+                      <span>DCS</span> {token != undefined && formatBalance(token)}
                     </div>
                   </div>
                 </div>

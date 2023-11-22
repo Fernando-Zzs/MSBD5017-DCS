@@ -14,9 +14,13 @@ const Home: NextPage = () => {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet" />
       </MetaHeader>
-      <div className="grid lg:grid-cols-2 flex-grow">
-        <UserData />
-        <ContractData />
+      <div className="grid lg:grid-cols-3 flex-grow">
+        <div className="col-span-1">
+          <UserData />
+        </div>
+        <div className="col-span-2">
+          <ContractData />
+        </div>
       </div>
     </>
   );

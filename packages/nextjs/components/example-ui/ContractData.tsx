@@ -38,9 +38,9 @@ export const ContractData = () => {
       <div className={`flex flex-col max-w-2xl bg-base-200 bg-opacity-70 rounded-2xl shadow-md px-6 py-5 w-full`}>
         <div className="mt-3 overflow-hidden text-[20px] whitespace-nowrap w-full font-bai-jamjuree">
           {startTime !== undefined && endTime !== undefined && (
-            <div>
-              <span className="text-lg">Time Range: {convertTimestampToString(startTime.toString())}</span>
-              <span className="text-lg"> - {convertTimestampToString(endTime.toString())}</span>
+            <div className="flex justify-between">
+              <span className="text-lg">{convertTimestampToString(startTime.toString())}</span>
+              <span className="text-lg">{convertTimestampToString(endTime.toString())}</span>
             </div>
           )}
           <div className="relative overflow-x-hidden" ref={containerRef}>
@@ -57,10 +57,10 @@ export const ContractData = () => {
                 <tbody>
                   {userArray && userArray.map((user, index) => (
                     <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td><Address address={user.userAddress} /></td>
-                      <td>{user.level}</td>
-                      <td>{user.credits?.toString()}</td>
+                      <td className="p-2 text-center">{index + 1}</td>
+                      <td className="p-2 text-center"><Address address={user.userAddress} disableAddressLink={true} size="base" /></td>
+                      <td className="p-2 text-center">{user.level}</td>
+                      <td className="p-2 text-center">{user.credits?.toString()}</td>
                     </tr>
                   ))}
                 </tbody>
