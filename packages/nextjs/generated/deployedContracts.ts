@@ -960,7 +960,7 @@ const contracts = {
           ],
         },
         YourContract: {
-          address: "0x19CC4DD8D86FC525f8CF37c51612DE91b1E52038",
+          address: "0x6699A372477f62caA0B0e3465CDA30E789a8F815",
           abi: [
             {
               inputs: [
@@ -1084,6 +1084,13 @@ const contracts = {
                 },
               ],
               stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "autoTransfer",
+              outputs: [],
+              stateMutability: "nonpayable",
               type: "function",
             },
             {
@@ -1926,7 +1933,7 @@ const contracts = {
       name: "sepolia",
       contracts: {
         DCSTOKEN: {
-          address: "0x18978acF54162a2ea9bA1eC162323E7DF72679fD",
+          address: "0x299C7B27deC767782709CB17e6d481d8085E0080",
           abi: [
             {
               inputs: [
@@ -2243,7 +2250,7 @@ const contracts = {
           ],
         },
         YourContract: {
-          address: "0x443729DFF68Dcc675463b0ED918ae57E00A3133b",
+          address: "0x48AFf143525C5F9d6Fa4946c0FE468E8858383C1",
           abi: [
             {
               inputs: [
@@ -2367,6 +2374,13 @@ const contracts = {
                 },
               ],
               stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "autoTransfer",
+              outputs: [],
+              stateMutability: "nonpayable",
               type: "function",
             },
             {
